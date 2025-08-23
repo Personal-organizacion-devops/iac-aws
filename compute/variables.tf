@@ -37,3 +37,29 @@ variable "ec2_web_key_name" {
   description = "Key name for the web EC2 instance"
   type        = string
 }
+
+# EKS Variables
+variable "eks_kubernetes_version" {
+  description = "Kubernetes version for the EKS cluster"
+  type        = string
+}
+
+variable "eks_node_instance_type" {
+  description = "Instance type for EKS worker nodes"
+  type        = string
+}
+
+variable "eks_min_size" {
+  description = "Minimum number of EKS worker nodes"
+  type        = number
+}
+
+variable "eks_max_size" {
+  description = "Maximum number of EKS worker nodes"
+  type        = number
+}
+
+variable "eks_desired_size" {
+  description = "Desired number of EKS worker nodes"
+  type        = number
+}

@@ -27,6 +27,7 @@ terraform.rc
 *.tfvars.json
 *.auto.tfvars
 *.auto.tfvars.json
+!envs/*/*.tfvars
 
 # --- Editor / system files ---
 .DS_Store

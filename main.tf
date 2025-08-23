@@ -12,6 +12,12 @@ module "compute" {
   ec2_web_instance_ami_id = var.ec2_web_instance_ami_id
   ec2_web_instance_type   = var.ec2_web_instance_type
   ec2_web_key_name        = var.ec2_web_key_name
+
+  eks_kubernetes_version = var.eks_kubernetes_version
+  eks_node_instance_type = var.eks_node_instance_type
+  eks_min_size           = var.eks_min_size
+  eks_max_size           = var.eks_max_size
+  eks_desired_size       = var.eks_desired_size
 }
 
 module "database" {
