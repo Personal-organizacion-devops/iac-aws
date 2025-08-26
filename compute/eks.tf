@@ -3,7 +3,7 @@ module "cluster_eks" {
   version = "~> 21.0"
 
   name               = "eks-${var.app_name}-${var.environment}"
-  kubernetes_version = "1.29"
+  kubernetes_version = var.eks_kubernetes_version
 
   addons = {
     coredns = {}
@@ -46,13 +46,13 @@ module "cluster_eks" {
   subnet_ids = var.vpc_private_subnets
 
   eks_managed_node_groups = {
-    example = {
-      instance_types = ["t3.small"]
+    "node-${var.app_name}-${var.environment}" = {
+      instance_types = [var.eks_node_instance_type]
       ami_type       = "AL2_x86_64"
 
-      min_size     = 1
-      max_size     = 5
-      desired_size = 1
+      min_size     = var.eks_min_size
+      max_size     = var.eks_max_size
+      desired_size = var.eks_desired_size
 
       iam_role_additional_policies = {
         AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"

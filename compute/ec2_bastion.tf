@@ -101,3 +101,9 @@ resource "aws_iam_role_policy_attachment" "eks_kubectl_access" {
   role       = aws_iam_role.bastion_kubectl_role.name
   policy_arn = aws_iam_policy.eks_kubectl_access.arn
 }
+
+# SSM Access 
+resource "aws_iam_role_policy_attachment" "bastion_ssm_core" {
+  role       = aws_iam_role.bastion_kubectl_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
