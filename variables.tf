@@ -5,8 +5,12 @@ variable "environment" {
 }
 
 # Web server
-variable "ec2_web_instance_ami_id" {
+variable "ec2_web_instance_ami_webserver" {
   description = "AMI ID for the web EC2 instance"
+  type        = string
+}
+variable "ec2_web_instance_ami_bastion" {
+  description = "AMI ID for the bastion EC2 instance"
   type        = string
 }
 variable "ec2_web_instance_type" {
@@ -17,7 +21,12 @@ variable "ec2_web_key_name" {
   description = "Key name for the web EC2 instance"
   type        = string
 }
-
+# Bastion
+variable "public_bastion" {
+  description = "If true, the bastion will have a public IP"
+  type        = bool
+  default     = false
+}
 # VPC
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"
@@ -48,4 +57,20 @@ variable "eks_max_size" {
 variable "eks_desired_size" {
   description = "Desired number of EKS worker nodes"
   type        = number
+}
+
+# RDS
+variable "rds_engine" {
+  description = "The database engine to use"
+  type        = string
+}
+
+variable "rds_engine_version" {
+  description = "The version of the database engine"
+  type        = string
+}
+
+variable "rds_instance_class" {
+  description = "The instance class for the RDS instance"
+  type        = string
 }

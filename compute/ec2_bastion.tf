@@ -1,11 +1,11 @@
 resource "aws_instance" "bastion" {
-  ami           = var.ec2_web_instance_ami_id
+  ami           = var.ec2_web_instance_ami_bastion
   instance_type = var.ec2_web_instance_type
   key_name      = var.ec2_web_key_name
 
-  subnet_id                   = var.vpc_public_subnets[0]
+  subnet_id                   = var.public_bastion ? var.vpc_public_subnets[0] : var.vpc_private_subnets[0]
   vpc_security_group_ids      = [aws_security_group.bastion_sg.id]
-  associate_public_ip_address = true
+  associate_public_ip_address = var.public_bastion
   iam_instance_profile        = aws_iam_instance_profile.bastion_profile.name
 
   user_data = <<-EOF
@@ -38,7 +38,7 @@ resource "aws_security_group" "bastion_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.public_bastion ? ["0.0.0.0/0"] : []
   }
 
   egress {

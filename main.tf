@@ -9,9 +9,12 @@ module "compute" {
   vpc_public_subnets  = module.vpc.public_subnets
   vpc_private_subnets = module.vpc.private_subnets
 
-  ec2_web_instance_ami_id = var.ec2_web_instance_ami_id
-  ec2_web_instance_type   = var.ec2_web_instance_type
-  ec2_web_key_name        = var.ec2_web_key_name
+  ec2_web_instance_ami_webserver = data.aws_ami.ami_for_webserver.id
+  ec2_web_instance_ami_bastion   = data.aws_ami.ami_for_bastion.id
+  ec2_web_instance_type          = var.ec2_web_instance_type
+  ec2_web_key_name               = var.ec2_web_key_name
+
+  public_bastion = var.public_bastion
 
   eks_kubernetes_version = var.eks_kubernetes_version
   eks_node_instance_type = var.eks_node_instance_type
@@ -27,10 +30,15 @@ module "database" {
   tags        = local.tags
   region      = local.region
 
-  vpc_id              = module.vpc.vpc_id
-  vpc_private_subnets = module.vpc.private_subnets
-  security_group_eks  = module.compute.security_group_eks
-  security_group_web  = module.compute.security_group_web
+  vpc_id                       = module.vpc.vpc_id
+  vpc_private_subnets          = module.vpc.private_subnets
+  vpc_single_availability_zone = module.vpc.azs[0]
+  security_group_eks           = module.compute.security_group_eks
+  security_group_web           = module.compute.security_group_web
+
+  rds_engine         = var.rds_engine
+  rds_engine_version = var.rds_engine_version
+  rds_instance_class = var.rds_instance_class
 }
 
 module "vpc" {
@@ -57,12 +65,4 @@ module "vpc" {
   }
 
   tags = local.tags
-}
-
-data "aws_availability_zones" "available" {
-  # Exclude local zones
-  filter {
-    name   = "opt-in-status"
-    values = ["opt-in-not-required"]
-  }
 }

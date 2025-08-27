@@ -1,5 +1,5 @@
 resource "aws_instance" "web_instance" {
-  ami           = var.ec2_web_instance_ami_id
+  ami           = var.ec2_web_instance_ami_webserver
   instance_type = var.ec2_web_instance_type
   key_name      = var.ec2_web_key_name
 

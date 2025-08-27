@@ -25,8 +25,12 @@ variable "vpc_private_subnets" {
   description = "List of private subnet IDs in the VPC"
   type        = list(string)
 }
-variable "ec2_web_instance_ami_id" {
+variable "ec2_web_instance_ami_webserver" {
   description = "AMI ID for the web EC2 instance"
+  type        = string
+}
+variable "ec2_web_instance_ami_bastion" {
+  description = "AMI ID for the bastion EC2 instance"
   type        = string
 }
 variable "ec2_web_instance_type" {
@@ -36,6 +40,11 @@ variable "ec2_web_instance_type" {
 variable "ec2_web_key_name" {
   description = "Key name for the web EC2 instance"
   type        = string
+}
+variable "public_bastion" {
+  description = "If true, the bastion will have a public IP"
+  type        = bool
+  default     = false
 }
 
 # EKS Variables

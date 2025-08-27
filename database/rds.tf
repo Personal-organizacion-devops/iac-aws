@@ -1,8 +1,8 @@
 resource "aws_db_instance" "rds_mysql" {
   identifier                = "rds-${var.app_name}-mysql-${var.environment}"
-  engine                    = "mysql"
-  engine_version            = "8.0"
-  instance_class            = "db.t3.micro"
+  engine                    = var.rds_engine
+  engine_version            = var.rds_engine_version
+  instance_class            = var.rds_instance_class
   allocated_storage         = 20
   storage_type              = "gp2"
   username                  = "admin"
@@ -11,10 +11,10 @@ resource "aws_db_instance" "rds_mysql" {
   db_subnet_group_name      = aws_db_subnet_group.rds_subnet_group.name
   vpc_security_group_ids    = [aws_security_group.rds_sg.id]
   publicly_accessible       = false
-  availability_zone         = "us-east-1a"
+  availability_zone         = var.vpc_single_availability_zone
   multi_az                  = false
   deletion_protection       = false
-  final_snapshot_identifier = "rds-${var.app_name}-snapshot-${formatdate("YYYYMMDD", timestamp())}"
+  final_snapshot_identifier = "rds-${var.app_name}-${var.environment}-snapshot"
 
   tags = var.tags
 }
